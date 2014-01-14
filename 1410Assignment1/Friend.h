@@ -14,10 +14,10 @@ class Friend
 public:
 	Friend(void);
 	void resetToDefault(FRIEND_STRUCT friendArr[], int size);
-	//void printArr(friendStruct friendArr[], int size);
-	//void AddFriend (Friend friendArr[], int size);
-	//void RemoveFriend(Friend friendArr[], int size);
-	//void SearchInterest(Friend friendArr[], int size, string keywords);
+	void printArr(FRIEND_STRUCT friendArr[], int size);
+	void AddFriend (FRIEND_STRUCT friendArr[], int size);
+	void RemoveFriend(FRIEND_STRUCT friendArr[], int size);
+	void SearchInterest(Friend friendArr[], int size, string keywords);
 	//void DisplayFriend (Friend friendArr[], int size);
 	//void ListFriend (Friend friendArr[], int size);
 	//float ReportAge (Friend friendArr[], int size);
