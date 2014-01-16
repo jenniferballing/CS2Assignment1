@@ -1,5 +1,7 @@
 #include "Friend.h"
 #include <iostream>
+#include <algorithm>
+#include <string>
 
 using namespace std;
 
@@ -20,54 +22,51 @@ void Friend::resetToDefault(FRIEND_STRUCT friendArr[], int size)
 		friendArr[i].Age=0;
 	}
 }
-//Print the current values in the struct array.
-void Friend::printArr (FRIEND_STRUCT friendArr[], int size)
-{
-	for (int i=0; i<size; i++)
-	{
-		cout<< "Friend at index: "<<i<< endl;
-		cout<< "ScreenName: "<<friendArr[i].ScreenName<< endl;
-		cout<< "Interests: " << friendArr[i].Interests<<endl;
-		cout<< "Age: " << friendArr[i].Age<< endl<<endl;
-	}
-}
 
 void Friend::AddFriend (FRIEND_STRUCT friendArr[], int size)
 {
 	string screenName="", interests="";
-	int age=0, i=0;
+	int i=0, age=0;
 	bool found=false;
 	
-	//Get input
-	cout<<"*** Add a new friend profile \n";
-	cout<<"ScreenName: \n";
-	getline(cin, screenName);
-	cout<<"Interests: \n";
-	getline(cin, interests);
-	cout<<"Age: \n";
-	cin>> age;
-	
-	//Check for available friend index- Must have available ScreenName, Age and Interests
-	//If available index is found fill with userChoice input
-	while(found==false)
+	while (found==false)
 	{
 		for(i=0; i<size; i++)
 		{
-			if (friendArr[i].ScreenName=="EMPTY" && friendArr[i].Age==0 && friendArr[i].Interests==" EMPTY")
+			if (friendArr[i].ScreenName=="EMPTY" && friendArr[i].Age==0 && friendArr[i].Interests=="EMPTY")
 			{
+				//clear and sync allow me to use multiple getline functions
+				cin.clear();
+				cin.sync();
+	
+				//Get new friend input
+				cout<<"*** Add a new friend profile \n";
+				cout<<"ScreenName: \n";
+				getline(cin, screenName);
+				cout<<"Interests: \n";
+				getline(cin, interests);
+				cout<<"Age: \n";
+				cin>> age;
+
+				//Fill new friend info into available space
 				friendArr[i].ScreenName=screenName;
 				friendArr[i].Age=age;
 				friendArr[i].Interests=interests;
 				found=true;
+				return;
 			}
 		}
-	//If no available index is found, inform user
-		/*if (found==false)
-		{
-			cout<<"There is no available space. You may wish to remove another friend to create room.\n";
-		}*/
+			
+			//If no available index is found, inform user
+			if(found==false)
+			{
+				cout<<"\nSorry, there is no available space.\n\n";
+				return;
+			}
+		
 	}
-}
+}	
+
 void Friend::RemoveFriend(FRIEND_STRUCT friendArr[], int size)
 {
 	//The index of the removed friend
@@ -79,15 +78,157 @@ void Friend::RemoveFriend(FRIEND_STRUCT friendArr[], int size)
 	}
 	cout<<"Which to remove:\n";
 	cin>>indexChoice;
-	
-	//Set the values back to the default
-	friendArr[indexChoice].ScreenName="EMPTY";
-	friendArr[indexChoice].Interests="EMPTY";
-	friendArr[indexChoice].Age=0;
-
+	if(indexChoice<5 && indexChoice>-1)
+	{
+		//Set the values back to the default
+		friendArr[indexChoice].ScreenName="EMPTY";
+		friendArr[indexChoice].Interests="EMPTY";
+		friendArr[indexChoice].Age=0;
+	}
+	else
+	{
+		cout<<"\nInvalid input.\n\n";
+		return;
+	}
 }
-void SearchInterest(FRIEND_STRUCT friendArr[], int size, string keywords)
+
+void Friend::SearchInterest(FRIEND_STRUCT friendArr[], int size, string keywords)
 {
+	//*NOTE*: Checks for valid friend input aren't necessary all input is valid.
+	//variables and temps needed to preserve original array values
+	int i=0, j=0;
+	string tempInterests, screenName;
+	string tempInterestsArr[5];
+	
+	//Check only occupied indexes- no need to check empty indexes for keywords
+	for(i=0; i<size; i++)
+	{
+		if (friendArr[i].ScreenName!="EMPTY" && friendArr[i].Age!=0 && friendArr[i].Interests!="EMPTY")
+		{
+			//Put array values into temp arrays and change to lowercase
+			for(j=0; j<size; j++)
+			{
+				tempInterests=friendArr[j].Interests;
+				transform(tempInterests.begin(), tempInterests.end(), tempInterests.begin(), ::tolower);
+				tempInterestsArr[j]=tempInterests;
 
+				//Make the keywords string lowercase
+				transform(keywords.begin(), keywords.end(), keywords.begin(), :: tolower);
 
+				//Compare lowercase interests to lowercase keywords
+				if(tempInterests.compare(keywords) == 0)
+				{
+					//Print ScreenName associated with matching keywords
+					cout<< "***" << friendArr[j].ScreenName<< endl<<endl;
+					return;
+				}
+			}
+		}
+	}
 }
+//Print the current values in the struct array.
+void Friend::DisplayFriend (FRIEND_STRUCT friendArr[], int size)
+{
+	for (int i=0; i<size; i++)
+	{
+		cout<< "Index: "<<i<< endl;
+		cout<< "ScreenName: "<<friendArr[i].ScreenName<< endl;
+		cout<< "Interests: " << friendArr[i].Interests<<endl;
+		cout<< "Age: " << friendArr[i].Age<< endl<<endl;
+	}
+}
+
+void Friend::ListFriend (FRIEND_STRUCT friendArr[], int size)
+{
+	FRIEND_STRUCT tempArr[5];
+	string testFr1, testFr2;
+	int i=0, j=0, k=0;
+	for(i=0; i<size; i++)
+	{
+		//Make sure that the "EMPTY" indexes are not included
+		if(friendArr[i].ScreenName!="EMPTY")
+		{
+			tempArr[i]=friendArr[i];
+		}
+		BubbleSort(tempArr, size);
+		for(j=0; j<size; j++)
+		{
+			cout<<tempArr[j].ScreenName;
+		}	
+	}
+}
+
+bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
+{
+	int length=3, i=0;
+	bool before=true;
+	//Create and initiallize temp variables
+	string tempF1N=	friend1.ScreenName;
+	string tempF2N=	friend2.ScreenName;
+	int tempF1A=friend1.Age;
+	int tempF2A=friend2.Age;
+
+	//Set all chars in temp variables to lowercase 
+	transform(tempF1N.begin(), tempF1N.end(), tempF1N.begin(), ::tolower);
+	transform(tempF2N.begin(), tempF2N.end(), tempF2N.begin(), ::tolower);
+	
+	//Find the shortest string
+	if(tempF1N.length() > tempF2N.length())
+	{
+		length=tempF2N.length();
+	}
+	else if(tempF1N.length() < tempF2N.length())
+	{
+		length=tempF1N.length();
+	}
+
+	//Compare to find if it is before
+	for(i=0; i<length; i++)
+	{
+		if(tempF1N.at(i)>tempF2N.at(i))
+		{
+			return false;
+		}
+	}
+	//If the strings are equal, organize by age
+	if(tempF1N==tempF2N)
+	{
+		if(tempF1A>tempF2A)
+		{
+			return false;
+		}
+		else if (tempF1A<tempF2A)
+		{
+			return true;
+		}
+		else
+		{
+			return true;
+		}
+	}
+return before;
+}
+
+void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
+	{
+		bool isBefore=true;
+		int i=0;
+		FRIEND_STRUCT tempArr[5];//***Find better way to determine how many elements are in the temp arrays.
+		
+		//Check and swap
+		for(i=0; i<size; i++)
+		{
+			isBefore=IsBefore(friendArr[i], friendArr[i++]);
+			if(isBefore==false)
+			{
+				tempArr[i++]=friendArr[i];
+				tempArr[i]=friendArr[i++];
+			}
+			else if(isBefore==true)
+			{
+				tempArr[i]=friendArr[i];
+				tempArr[i++]=friendArr[i++];
+			}
+		}
+}
+		

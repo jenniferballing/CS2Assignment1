@@ -14,14 +14,14 @@ class Friend
 public:
 	Friend(void);
 	void resetToDefault(FRIEND_STRUCT friendArr[], int size);
-	void printArr(FRIEND_STRUCT friendArr[], int size);
 	void AddFriend (FRIEND_STRUCT friendArr[], int size);
 	void RemoveFriend(FRIEND_STRUCT friendArr[], int size);
-	void SearchInterest(Friend friendArr[], int size, string keywords);
-	//void DisplayFriend (Friend friendArr[], int size);
-	//void ListFriend (Friend friendArr[], int size);
+	void SearchInterest(FRIEND_STRUCT friendArr[], int size, string keywords);
+	void DisplayFriend (FRIEND_STRUCT friendArr[], int size);
+	void ListFriend (FRIEND_STRUCT friendArr[], int size);
+	bool IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2);
 	//float ReportAge (Friend friendArr[], int size);
-	//bool IsBefore (Friend friend1, Friend friend2);
+	void BubbleSort (FRIEND_STRUCT friendArr[ ], int size);
 	~Friend(void);
 };
 
