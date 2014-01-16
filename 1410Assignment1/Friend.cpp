@@ -150,12 +150,21 @@ void Friend::ListFriend (FRIEND_STRUCT friendArr[], int size)
 		{
 			tempArr[i]=friendArr[i];
 		}
-		BubbleSort(tempArr, size);
-		for(j=0; j<size; j++)
+		else if(friendArr[i].ScreenName=="EMPTY")
 		{
-			cout<<tempArr[j].ScreenName;
-		}	
+			tempArr[i]=friendArr[i++];
+		}
 	}
+	//int tempArrSize=tempArr.size();
+	BubbleSort(tempArr, 5);//***figure out size
+	for(j=0; j<5; j++)
+	{
+		if(tempArr[j].ScreenName!="EMPTY")
+		{
+			cout<<tempArr[j].ScreenName<<endl;
+		}
+	}	
+	cout<<endl;
 }
 
 bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
@@ -183,7 +192,7 @@ bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
 	}
 
 	//Compare to find if it is before
-	for(i=0; i<length; i++)
+	for(i=0; i<length-1; i++)
 	{
 		if(tempF1N.at(i)>tempF2N.at(i))
 		{
@@ -212,11 +221,11 @@ return before;
 void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 	{
 		bool isBefore=true;
-		int i=0;
-		FRIEND_STRUCT tempArr[5];//***Find better way to determine how many elements are in the temp arrays.
+		int i=0, j=0;
+		FRIEND_STRUCT tempArr[5];//***Find better way to determine how many elements are in temp array.
 		
 		//Check and swap
-		for(i=0; i<size; i++)
+		for(i=0; i<size-2; i++)
 		{
 			isBefore=IsBefore(friendArr[i], friendArr[i++]);
 			if(isBefore==false)
@@ -230,5 +239,10 @@ void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 				tempArr[i++]=friendArr[i++];
 			}
 		}
-}
+		//Print to see if it is working...its not.
+		for(j=0; j<4; j++)//**always throws exceptions because I don't know how many elements are in the array when the "EMPTY"s are removed. I put in 4 for testing purposes.
+		{
+			cout<<tempArr[j].ScreenName;
+		}
+	}
 		
