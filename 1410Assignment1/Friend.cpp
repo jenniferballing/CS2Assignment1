@@ -224,26 +224,29 @@ return before;
 void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 	{
 		bool isBefore=true;
-		int i=0, j=0;
-		FRIEND_STRUCT tempArr[5];//***Find better way to determine how many elements are in temp array.
+		int i=0, j=0, l=0;
+		FRIEND_STRUCT a, b;
+		FRIEND_STRUCT tempArr[5];
+
+		for(l=0; l<size; l++)
+		{
+			tempArr[l]=friendArr[l];
+		}
 		
 		//Check and swap
-		for(i=0; i<size; i++)
+		for(i=0; i<size; (i+1))
 		{
-			isBefore=IsBefore(friendArr[i], friendArr[i++]);
+			isBefore=IsBefore(tempArr[i], tempArr[i+1]);
 			if(isBefore==false)
 			{
-				tempArr[i++]=friendArr[i];
-				tempArr[i]=friendArr[i++];
-			}
-			else if(isBefore==true)
-			{
-				tempArr[i]=friendArr[i];
-				tempArr[i++]=friendArr[i++];
+				a=tempArr[i];
+				b=tempArr[i+1];
+				tempArr[i]=b;
+				tempArr[i+1]=a;
 			}
 		}
 		//Print to see if it is working...its not.
-		for(j=0; j<size; j++)//**always throws exceptions because I don't know how many elements are in the array when the "EMPTY"s are removed. I put in 4 for testing purposes.
+		for(j=0; j<size; j++)
 		{
 			cout<<tempArr[j].ScreenName;
 		}
