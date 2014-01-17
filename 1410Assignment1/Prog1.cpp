@@ -51,13 +51,11 @@ void main ()
 		}
 		else if(userChoice=='d' || userChoice == 'D')
 		{
-			f1->RemoveFriend(Arr, SIZE);
 			f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 		else if(userChoice=='l' || userChoice == 'L')
 		{
-			f1->BubbleSort(Arr, SIZE);
-			//f1->ListFriend(Arr, SIZE);
+			f1->ListFriend(Arr, SIZE);
 			//f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 	}

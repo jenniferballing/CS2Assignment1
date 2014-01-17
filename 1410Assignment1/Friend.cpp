@@ -145,15 +145,18 @@ void Friend::ListFriend (FRIEND_STRUCT friendArr[], int size)
 	int i=0, j=0, k=0;
 	for(i=0; i<size; i++)
 	{
+		tempArr[i]=friendArr[i];
 		//Make sure that the "EMPTY" indexes are not included
-		if(friendArr[i].ScreenName!="EMPTY")
+		/*if(friendArr[i].ScreenName!="EMPTY")
 		{
 			tempArr[i]=friendArr[i];
 		}
 		else if(friendArr[i].ScreenName=="EMPTY")
 		{
-			tempArr[i]=friendArr[i++];
-		}
+			tempArr[i].ScreenName=" ";
+			tempArr[i].Age=0;
+			tempArr[i].Interests=" ";
+		}*/
 	}
 	//int tempArrSize=tempArr.size();
 	BubbleSort(tempArr, 5);//***figure out size
@@ -225,7 +228,7 @@ void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 		FRIEND_STRUCT tempArr[5];//***Find better way to determine how many elements are in temp array.
 		
 		//Check and swap
-		for(i=0; i<size-2; i++)
+		for(i=0; i<size; i++)
 		{
 			isBefore=IsBefore(friendArr[i], friendArr[i++]);
 			if(isBefore==false)
@@ -240,7 +243,7 @@ void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 			}
 		}
 		//Print to see if it is working...its not.
-		for(j=0; j<4; j++)//**always throws exceptions because I don't know how many elements are in the array when the "EMPTY"s are removed. I put in 4 for testing purposes.
+		for(j=0; j<size; j++)//**always throws exceptions because I don't know how many elements are in the array when the "EMPTY"s are removed. I put in 4 for testing purposes.
 		{
 			cout<<tempArr[j].ScreenName;
 		}
