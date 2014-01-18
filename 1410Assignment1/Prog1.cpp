@@ -34,12 +34,10 @@ void main ()
 		if(userChoice=='a' || userChoice == 'A')
 		{
 			f1->AddFriend(Arr, SIZE);
-			f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 		else if(userChoice=='r' || userChoice == 'R')
 		{
 			f1->RemoveFriend(Arr, SIZE);
-			f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 		else if(userChoice=='s' || userChoice == 'S')
 		{
@@ -47,29 +45,22 @@ void main ()
 			cout<< "Search keyword: ";
 			cin>> keyword;
 			f1->SearchInterest(Arr, SIZE, keyword);
-			f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 		else if(userChoice=='d' || userChoice == 'D')
 		{
-			f1->DisplayFriend(Arr, SIZE); //Just Checking***
+			f1->DisplayFriend(Arr, SIZE); 
 		}
 		else if(userChoice=='l' || userChoice == 'L')
 		{
 			f1->ListFriend(Arr, SIZE);
-			f1->DisplayFriend(Arr, SIZE); //Just Checking***
+		}
+		else if(userChoice=='c' || userChoice == 'C')
+		{
+			cout<<"\n:Average age: "<<f1->ReportAge (Arr, SIZE)<<endl;
 		}
 	}
-		/*
-			case "l" || "L":
-				ListFriend (Friend friendArr[], int size);
-				break;
-			case "c" || "C":
-				float ReportAge (Friend friendArr[], int size);
-				break:
-			case "e" || "E":
-				return;
-		}*/
-	}	
+}
+						
 void printMenu (void)
 {
 	cout<< "*** Network of My Friends ***\n"

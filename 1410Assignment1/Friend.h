@@ -20,7 +20,7 @@ public:
 	void DisplayFriend (FRIEND_STRUCT friendArr[], int size);
 	void ListFriend (FRIEND_STRUCT friendArr[], int size);
 	bool IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2);
-	float ReportAge (Friend friendArr[], int size);
+	float ReportAge (FRIEND_STRUCT friendArr[], int size);
 	void BubbleSort (FRIEND_STRUCT friendArr[ ], int size);
 	~Friend(void);
 };

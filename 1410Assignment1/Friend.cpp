@@ -240,5 +240,28 @@ void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 			}
 			size--;
 		}
-	}	
+	}
+
+float Friend::ReportAge (FRIEND_STRUCT friendArr[], int size)
+{
+	int i=0, j=0;
+	float numFriends=0, sum=0, average=0;
+	
+	//Count the number of friends in the array
+	for(j=0; j<size; j++)
+	{
+		if(friendArr[i].ScreenName != "EMPTY")
+		{
+			numFriends++;
+		}
+	}
+	//Find the sum of the ages
+	for(i=0; i<size; i++)
+	{
+		sum+=friendArr[i].Age;
+	}
+	//Find and return the average of the ages
+	average=sum/numFriends;
+	return average;
+}
 		
