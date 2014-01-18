@@ -142,21 +142,10 @@ void Friend::ListFriend (FRIEND_STRUCT friendArr[], int size)
 {
 	FRIEND_STRUCT tempArr[5];
 	string testFr1, testFr2;
-	int i=0, j=0, k=0;
+	int i=0, j=0;
 	for(i=0; i<size; i++)
 	{
 		tempArr[i]=friendArr[i];
-		//Make sure that the "EMPTY" indexes are not included
-		/*if(friendArr[i].ScreenName!="EMPTY")
-		{
-			tempArr[i]=friendArr[i];
-		}
-		else if(friendArr[i].ScreenName=="EMPTY")
-		{
-			tempArr[i].ScreenName=" ";
-			tempArr[i].Age=0;
-			tempArr[i].Interests=" ";
-		}*/
 	}
 	//int tempArrSize=tempArr.size();
 	BubbleSort(tempArr, 5);//***figure out size
@@ -172,13 +161,17 @@ void Friend::ListFriend (FRIEND_STRUCT friendArr[], int size)
 
 bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
 {
-	int length=3, i=0;
 	bool before=true;
+	int length=3, i=0;
 	//Create and initiallize temp variables
+	//FRIEND_STRUCT friendOne, friendTwo;
 	string tempF1N=	friend1.ScreenName;
 	string tempF2N=	friend2.ScreenName;
 	int tempF1A=friend1.Age;
 	int tempF2A=friend2.Age;
+
+	//friendOne.ScreenName=friend1.ScreenName;
+	//friendTwo.ScreenName=friend2.ScreenName;
 
 	//Set all chars in temp variables to lowercase 
 	transform(tempF1N.begin(), tempF1N.end(), tempF1N.begin(), ::tolower);
@@ -197,9 +190,13 @@ bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
 	//Compare to find if it is before
 	for(i=0; i<length-1; i++)
 	{
-		if(tempF1N.at(i)>tempF2N.at(i))
+		if(tempF1N[i]>tempF2N[i])
 		{
 			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 	//If the strings are equal, organize by age
@@ -223,32 +220,25 @@ return before;
 
 void Friend::BubbleSort (FRIEND_STRUCT friendArr[ ], int size)
 	{
-		bool isBefore=true;
+		bool done=false;
 		int i=0, j=0, l=0;
 		FRIEND_STRUCT a, b;
-		FRIEND_STRUCT tempArr[5];
-
-		for(l=0; l<size; l++)
+		while(!done)
 		{
-			tempArr[l]=friendArr[l];
-		}
-		
-		//Check and swap
-		for(i=0; i<size; (i+1))
-		{
-			isBefore=IsBefore(tempArr[i], tempArr[i+1]);
-			if(isBefore==false)
+			done=true;
+			for(i=0; i<size-1; i++)
 			{
-				a=tempArr[i];
-				b=tempArr[i+1];
-				tempArr[i]=b;
-				tempArr[i+1]=a;
+				if(! IsBefore(friendArr[i], friendArr[i+1]))
+				{
+					a=friendArr[i];
+					b=friendArr[i+1];
+					friendArr[i+1]=a;
+					friendArr[i]=b;
+
+					done=false;
+				}
 			}
+			size--;
 		}
-		//Print to see if it is working...its not.
-		for(j=0; j<size; j++)
-		{
-			cout<<tempArr[j].ScreenName;
-		}
-	}
+	}	
 		

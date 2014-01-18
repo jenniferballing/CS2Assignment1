@@ -56,7 +56,7 @@ void main ()
 		else if(userChoice=='l' || userChoice == 'L')
 		{
 			f1->ListFriend(Arr, SIZE);
-			//f1->DisplayFriend(Arr, SIZE); //Just Checking***
+			f1->DisplayFriend(Arr, SIZE); //Just Checking***
 		}
 	}
 		/*
