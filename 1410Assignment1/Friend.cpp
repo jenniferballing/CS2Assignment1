@@ -50,7 +50,15 @@ void Friend::AddFriend (FRIEND_STRUCT friendArr[], int size)
 
 				//Fill new friend info into available space
 				friendArr[i].ScreenName=screenName;
-				friendArr[i].Age=age;
+				if(age>=0)
+				{
+					friendArr[i].Age=age;
+				}
+				else
+				{
+					friendArr[i].Age=0;
+					cout<<"All friends must have positive age numbers. This friend's age has been set to 0.\n";
+				}
 				friendArr[i].Interests=interests;
 				found=true;
 				return;
@@ -69,72 +77,103 @@ void Friend::AddFriend (FRIEND_STRUCT friendArr[], int size)
 
 void Friend::RemoveFriend(FRIEND_STRUCT friendArr[], int size)
 {
-	//The index of the removed friend
+	int i=0, j=0, emptySum=0;
 	int indexChoice;
-	cout<< "*** Remove a friend ***\n";
-	for (int i=0; i<size; i++)
+	for(j=0; j<size; j++)
 	{
-		cout<< i<< friendArr[i].ScreenName<< endl;
+		if(friendArr[j].ScreenName=="EMPTY")
+		{
+			emptySum+=1;
+		}
 	}
-	cout<<"Which to remove:\n";
-	cin>>indexChoice;
-	if(indexChoice<5 && indexChoice>-1)
+	if(emptySum==5)
 	{
-		//Set the values back to the default
-		friendArr[indexChoice].ScreenName="EMPTY";
-		friendArr[indexChoice].Interests="EMPTY";
-		friendArr[indexChoice].Age=0;
+		cout<<"There are no friends to remove.\n";
+		return;
 	}
 	else
 	{
-		cout<<"\nInvalid input.\n\n";
-		return;
+		cout<< "*** Remove a friend ***\n";
+		for (int i=0; i<size; i++)
+		{
+			if(friendArr[i].ScreenName!="EMPTY")
+			{
+				cout<< i <<". "<< friendArr[i].ScreenName<< endl;
+			}
+		}
+		cout<<"\nWhich to remove: ";
+		cin>>indexChoice;
+		if(indexChoice<5 && indexChoice>-1)
+		{
+			//Set the values back to the default
+			friendArr[indexChoice].ScreenName="EMPTY";
+			friendArr[indexChoice].Interests="EMPTY";
+			friendArr[indexChoice].Age=0;
+		}
+		else
+		{
+			cout<<"\nInvalid input.\n\n";
+			return;
+		}
 	}
 }
 
 void Friend::SearchInterest(FRIEND_STRUCT friendArr[], int size, string keywords)
 {
-	//*NOTE*: Checks for valid friend input aren't necessary all input is valid.
-	//variables and temps needed to preserve original array values
-	int i=0, j=0;
+	int i=0, k=0, l=0;
 	string tempInterests, screenName;
 	string tempInterestsArr[5];
 	
 	//Check only occupied indexes- no need to check empty indexes for keywords
+		
+	//Put array values into temp arrays and change to lowercase
 	for(i=0; i<size; i++)
 	{
 		if (friendArr[i].ScreenName!="EMPTY" && friendArr[i].Age!=0 && friendArr[i].Interests!="EMPTY")
 		{
-			//Put array values into temp arrays and change to lowercase
-			for(j=0; j<size; j++)
+			tempInterests=friendArr[i].Interests;
+			transform(tempInterests.begin(), tempInterests.end(), tempInterests.begin(), ::tolower);
+			tempInterestsArr[i]=tempInterests;
+
+			//Make the keywords string lowercase
+			transform(keywords.begin(), keywords.end(), keywords.begin(), :: tolower);
+
+			//Compare lowercase interests to lowercase keywords
+			if(tempInterestsArr[i]!="EMPTY")
 			{
-				tempInterests=friendArr[j].Interests;
-				transform(tempInterests.begin(), tempInterests.end(), tempInterests.begin(), ::tolower);
-				tempInterestsArr[j]=tempInterests;
-
-				//Make the keywords string lowercase
-				transform(keywords.begin(), keywords.end(), keywords.begin(), :: tolower);
-
-				//Compare lowercase interests to lowercase keywords
-				if(tempInterests.compare(keywords) == 0)
+				for(l=0, k=0; k<tempInterests.length(); k++)
 				{
-					//Print ScreenName associated with matching keywords
-					cout<< "***" << friendArr[j].ScreenName<< endl<<endl;
-					return;
+					if(keywords[l]==tempInterests[k])
+					{
+						l++;
+						if(l==keywords.length())
+						{
+							cout<< friendArr[i].ScreenName<<endl;
+							break;
+						}
+					}
+					else
+					{
+						l=0;
+					}
 				}
 			}
 		}
 	}
 }
+
 //Print the current values in the struct array.
 void Friend::DisplayFriend (FRIEND_STRUCT friendArr[], int size)
 {
 	for (int i=0; i<size; i++)
 	{
-		cout<< "Index: "<<i<< endl;
-		cout<< "ScreenName: "<<friendArr[i].ScreenName<< endl;
-		cout<< "Interests: " << friendArr[i].Interests<<endl;
-		cout<< "Age: " << friendArr[i].Age<< endl<<endl;
+		if(friendArr[i].ScreenName!="EMPTY")
+		{
+			cout<< "Index: "<<i<< endl;
+			cout<< "ScreenName: "<<friendArr[i].ScreenName<< endl;
+			cout<< "Interests: " << friendArr[i].Interests<<endl;
+			cout<< "Age: " << friendArr[i].Age<< endl<<endl;
+		}
 	}
 }
 
@@ -164,7 +203,6 @@ bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
 	bool before=true;
 	int length=3, i=0;
 	//Create and initiallize temp variables
-	//FRIEND_STRUCT friendOne, friendTwo;
 	string tempF1N=	friend1.ScreenName;
 	string tempF2N=	friend2.ScreenName;
 	int tempF1A=friend1.Age;
@@ -194,7 +232,7 @@ bool Friend::IsBefore(FRIEND_STRUCT friend1, FRIEND_STRUCT friend2)
 		{
 			return false;
 		}
-		else
+		else if (tempF1N[i]!=tempF2N[i])
 		{
 			return true;
 		}
@@ -250,7 +288,7 @@ float Friend::ReportAge (FRIEND_STRUCT friendArr[], int size)
 	//Count the number of friends in the array
 	for(j=0; j<size; j++)
 	{
-		if(friendArr[i].ScreenName != "EMPTY")
+		if(friendArr[j].ScreenName != "EMPTY")
 		{
 			numFriends++;
 		}
@@ -258,7 +296,11 @@ float Friend::ReportAge (FRIEND_STRUCT friendArr[], int size)
 	//Find the sum of the ages
 	for(i=0; i<size; i++)
 	{
-		sum+=friendArr[i].Age;
+		if(friendArr[i].Age!=0 && friendArr[i].Interests!="EMPTY" && friendArr[i].ScreenName!="EMPTY")
+		{
+			sum+=friendArr[i].Age;
+		}
+		
 	}
 	//Find and return the average of the ages
 	average=sum/numFriends;

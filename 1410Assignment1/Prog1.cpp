@@ -44,6 +44,7 @@ void main ()
 			string keyword;
 			cout<< "Search keyword: ";
 			cin>> keyword;
+			cout<<endl;
 			f1->SearchInterest(Arr, SIZE, keyword);
 		}
 		else if(userChoice=='d' || userChoice == 'D')
@@ -56,21 +57,26 @@ void main ()
 		}
 		else if(userChoice=='c' || userChoice == 'C')
 		{
-			cout<<"\n:Average age: "<<f1->ReportAge (Arr, SIZE)<<endl;
+			cout<<"\nAverage age: "<<f1->ReportAge (Arr, SIZE)<<endl;
+		}
+		else if(userChoice=='e' || userChoice == 'E')
+		{
+			return;
 		}
 	}
 }
 						
 void printMenu (void)
 {
-	cout<< "*** Network of My Friends ***\n"
+	cout<< "\n*** Network of My Friends ***\n"
 	<<"A: Add a Friend\n"
 	<<"R: Remove a Friend\n"
 	<<"S: Search Interests\n"
 	<<"D: Display All Friends\n"
 	<<"L: List All Friends in Alphabetic Order Based on ScreenName\n"
 	<<"C: Calculate the Average Age of All Friends in MY Network\n"
-	<<"E: Exit\n";
+	<<"E: Exit\n"
+	<<"\nSelection: ";
 }
 
 
